@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>ไลโอแฮร์ครีมซิลเวอร์ · เช็คสต๊อก &amp; ขอใช้สิทธิ์</title>
+<meta name="theme-color" content="#f5f5f7">
+<meta property="og:title" content="ไลโอแฮร์ครีมซิลเวอร์ · เช็คสต๊อกสด">
+<meta property="og:description" content="ดูจำนวนคงเหลือแบบ real-time และขอใช้สิทธิ์สินค้า">
+<meta property="og:image" content="https://ainzth45-commits.github.io/stock-live/assets/og.jpg">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="assets/icon.png"><link rel="apple-touch-icon" href="assets/icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--ease:cubic-bezier(.16,1,.3,1);--spring:cubic-bezier(.34,1.56,.64,1)}
+html,body{height:100%;overflow:hidden;overscroll-behavior:none}
+body{font-family:-apple-system,"SF Pro Display","Noto Sans Thai",sans-serif;background:#f5f5f7;color:#1d1d1f;transition:background-color 1.2s;touch-action:manipulation;-webkit-user-select:none;user-select:none}
+body.dk{background:#000}
+.stagewrap{position:fixed;inset:0;overflow:hidden}
+.phone.app{position:absolute;left:0;top:0;transform-origin:0 0;border-radius:0!important;box-shadow:none!important;overflow:visible}
+.loading .cta,.loading .count{opacity:.35}
+.cta{white-space:nowrap}
+.cta.out{background:#8e8e93;box-shadow:none;cursor:not-allowed}.cta.out::after{display:none}
+.neterr{position:absolute;left:50%;top:14px;transform:translateX(-50%);z-index:9;font-size:.78rem;padding:6px 12px;border-radius:999px;background:#ff453a;color:#fff;opacity:0;transition:opacity .3s;pointer-events:none}.neterr.on{opacity:1}
+
+/* ===== devices ===== */
+.phone{position:relative;width:390px;height:844px;border-radius:52px;overflow:hidden;background:var(--bg);box-shadow:0 0 0 10px #111,0 40px 90px #0005;container-type:size;--bg:#f5f5f7;--ink:#1d1d1f;--sub:#6e6e73;--card:#ffffffcc;--line:#0000001a;--key:#ffffff;--keyink:#1d1d1f;--accent:#0071e3}
+.phone.dark{--bg:#000;--ink:#f5f5f7;--sub:#a1a1a6;--card:#1c1c1ecc;--line:#ffffff1f;--key:#2c2c2e;--keyink:#f5f5f7;--accent:#2997ff}
+.phone{color:var(--ink);transition:background .6s}
+.bgglow{position:absolute;inset:0;background:radial-gradient(60% 40% at 50% 42%,#c9d6ff66,transparent 70%);transition:opacity .8s,transform 1.2s var(--ease)}
+.dark .bgglow{background:radial-gradient(60% 40% at 50% 42%,#3a4a8a66,transparent 70%)}
+
+/* hero text */
+.eyebrow{position:absolute;top:104px;left:0;right:0;text-align:center;font-size:.8rem;font-weight:600;letter-spacing:.02em;color:#bf4800;transition:all .6s var(--ease)}
+.dark .eyebrow{color:#f5a623}
+.eyebrow .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:currentColor;margin-right:6px;animation:live 1.6s ease-in-out infinite;vertical-align:1px}
+@keyframes live{50%{opacity:.25;transform:scale(.7)}}
+.title{position:absolute;top:126px;left:24px;right:24px;text-align:center;font-size:2.05rem;font-weight:700;letter-spacing:-.02em;line-height:1.12;transition:all .7s var(--ease)}
+.title small{display:block;font-size:.95rem;font-weight:400;color:var(--sub);letter-spacing:0;margin-top:6px}
+
+/* product */
+.prodwrap{position:absolute;left:50%;top:232px;width:270px;height:336px;margin-left:-135px;transition:transform 1.1s var(--ease);transform-origin:50% 50%;perspective:900px;z-index:2}
+.prod{width:100%;height:100%;background:url(assets/product.webp) center/contain no-repeat;transform-style:preserve-3d;transition:transform .25s ease-out;filter:drop-shadow(0 30px 30px #0003)}
+.floaty{width:100%;height:100%;animation:float 5s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.shadow{position:absolute;left:18%;right:18%;bottom:-18px;height:26px;border-radius:50%;background:radial-gradient(#0004,transparent 70%);animation:shd 5s ease-in-out infinite}
+.dark .shadow{background:radial-gradient(#6a8cff33,transparent 70%)}
+@keyframes shd{50%{transform:scaleX(.82);opacity:.6}}
+.sheen{position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,#ffffff55 50%,transparent 60%) -150% 0/250% 100% no-repeat;mix-blend-mode:overlay;animation:sheen 5.5s ease-in-out infinite;-webkit-mask:url(assets/product.webp) center/contain no-repeat;mask:url(assets/product.webp) center/contain no-repeat}
+@keyframes sheen{0%,55%{background-position:-150% 0}100%{background-position:150% 0}}
+
+/* count */
+.count{position:absolute;top:586px;left:0;right:0;text-align:center;transition:all .7s var(--ease)}
+.count .n{font-size:5.2rem;font-weight:700;letter-spacing:-.04em;line-height:1.05;display:inline-flex;overflow:hidden;height:5.5rem;color:var(--ink)}
+.count .n span{display:block;transition:transform .7s var(--spring)}
+.count .of{font-size:.95rem;color:var(--sub);margin-top:4px}
+.bar{width:180px;height:5px;border-radius:9px;background:var(--line);margin:12px auto 0;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,#0071e3,#7a5cff);transition:width 1s var(--ease)}
+
+.cta{position:absolute;left:50%;bottom:44px;transform:translateX(-50%);height:54px;padding:0 44px;border-radius:999px;border:0;background:var(--accent);color:#fff;font:600 1.1rem inherit;font-family:inherit;cursor:pointer;box-shadow:0 12px 30px color-mix(in srgb,var(--accent) 45%,transparent);transition:all .5s var(--ease)}
+.cta:active{transform:translateX(-50%) scale(.96)}
+.cta::after{content:'';position:absolute;inset:-6px;border-radius:999px;border:2px solid var(--accent);opacity:0;animation:ring 2.4s var(--ease) infinite}
+@keyframes ring{0%{opacity:.6;transform:scale(.9)}100%{opacity:0;transform:scale(1.25)}}
+
+/* ===== claim mode ===== */
+.claim .bgglow{transform:translate(120px,-150px) scale(1.4)}
+.claim .eyebrow,.claim .title{opacity:0;transform:translateY(-30px) scale(.96);pointer-events:none}
+.claim .cta{opacity:0;transform:translateX(-50%) translateY(40px);pointer-events:none}
+.close{position:absolute;top:58px;right:18px;width:36px;height:36px;border-radius:50%;border:0;background:var(--card);backdrop-filter:blur(20px);color:var(--ink);font-size:1.1rem;cursor:pointer;opacity:0;transform:scale(.6);transition:all .5s var(--spring) .3s;z-index:5;pointer-events:none}
+.claim .close{opacity:1;transform:none;pointer-events:auto}
+
+.form{position:absolute;left:0;right:0;bottom:0;z-index:4;pointer-events:none;visibility:hidden;transition:visibility 0s .7s}
+.claim .form{visibility:visible;pointer-events:auto;transition:visibility 0s}
+.sheet{position:relative;background:var(--sheet,#fff);border-radius:30px 30px 0 0;padding:14px 18px 24px;box-shadow:0 -20px 60px #0000001f;transform:translateY(105%);transition:transform .8s var(--ease) .12s}
+.dark .sheet{--sheet:#1c1c1e;box-shadow:0 -20px 60px #0008}
+.claim .sheet{transform:none}
+.grab{width:40px;height:5px;border-radius:9px;background:var(--line);margin:0 auto 10px}
+.steps{display:flex;justify-content:center;gap:6px;margin-bottom:8px}
+.steps i{width:22px;height:4px;border-radius:9px;background:var(--line);transition:all .4s var(--ease)}
+.steps i.on{background:var(--accent);width:34px}
+.stage2{position:relative;height:196px;overflow:hidden}
+.st{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;text-align:center;transition:transform .55s var(--ease),opacity .4s}
+.st2{transform:translateX(110%);opacity:0}
+.s2 .st1{transform:translateX(-110%);opacity:0}.s2 .st2{transform:none;opacity:1}
+.sh{font-size:1rem;font-weight:600;color:var(--sub)}
+.chips{display:flex;gap:8px;margin:12px 0 6px}
+.chips button{min-width:56px;height:38px;border-radius:999px;border:1.5px solid var(--line);background:transparent;color:var(--ink);font-family:inherit;font-size:1.05rem;font-weight:700;cursor:pointer;transition:all .3s var(--spring)}
+.chips button.on{background:var(--ink);color:var(--sheet,#fff);border-color:var(--ink);transform:scale(1.06)}
+.codebig{font-size:3.6rem;font-weight:800;letter-spacing:.06em;line-height:1.1;font-variant-numeric:tabular-nums;margin-top:4px}
+.codebig .ph{color:var(--line)}
+.codebig .car{display:inline-block;width:3px;height:.9em;background:var(--accent);vertical-align:-.08em;margin-left:2px;animation:car 1s steps(2) infinite}
+@keyframes car{50%{opacity:0}}
+.hintline{font-size:.78rem;color:var(--sub);margin-top:6px}
+.who{display:inline-flex;align-items:center;gap:8px;padding:6px 8px 6px 14px;border-radius:999px;background:var(--line);font-size:.9rem;margin-bottom:8px}
+.who b{font-size:1rem;letter-spacing:.04em}
+.who button{border:0;background:var(--bg);color:var(--accent);font-family:inherit;font-weight:600;font-size:.8rem;padding:5px 10px;border-radius:999px;cursor:pointer}
+.qtyrow{display:flex;align-items:center;justify-content:center;gap:26px;margin-top:4px}
+.qtyrow .val{min-width:110px}
+.qtyrow .val b{display:block;font-size:4.4rem;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;transition:transform .25s var(--spring)}
+.qtyrow .val b.ph{color:var(--line)}
+.qtyrow .val b.bump{transform:scale(1.18)}
+.qtyrow .val small{font-size:.9rem;color:var(--sub)}
+.stp{width:64px;height:64px;border-radius:50%;border:0;background:var(--accent);color:#fff;cursor:pointer;display:grid;place-items:center;box-shadow:0 10px 24px color-mix(in srgb,var(--accent) 35%,transparent);transition:transform .15s var(--spring),opacity .2s}
+.stp:active{transform:scale(.88)}.stp:disabled{opacity:.22;box-shadow:none;cursor:not-allowed}
+.stp svg{pointer-events:none}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.pad button{height:50px;border-radius:14px;border:0;background:var(--keybg,#f2f2f5);color:var(--keyink);font-family:inherit;font-size:1.4rem;font-weight:600;cursor:pointer;transition:transform .12s,background .2s}
+.dark .pad button{--keybg:#2c2c2e}
+.pad button:active{transform:scale(.93);background:color-mix(in srgb,var(--accent) 18%,var(--keybg,#f2f2f5))}
+.pad .fn{background:transparent;font-size:1.2rem}
+.go{width:100%;height:56px;border-radius:16px;border:0;background:var(--accent);color:#fff;font-family:inherit;font-size:1.1rem;font-weight:700;cursor:pointer;margin-top:10px;transition:background .3s,transform .2s}
+.go:disabled{background:color-mix(in srgb,var(--accent) 22%,var(--sheet,#fff));color:color-mix(in srgb,var(--ink) 35%,transparent);cursor:not-allowed}
+.go:active{transform:scale(.98)}
+/* มือถือ claim: สินค้าซูมครึ่งบน · ป้ายคงเหลือเล็กมุมซ้าย */
+.claim .prodwrap{transform:translate(287px,-50px) scale(1.7)}   /* กล่องเห็น ~75% ชิดขวา · โลโก้+SILVER BLOCK อยู่เหนือ sheet */
+
+/* ===== สวิตช์โหมด (ลอยกลางบน) ===== */
+.tg{position:absolute;left:50%;top:52px;transform:translateX(-50%);z-index:7;width:84px;height:40px;padding:0;border-radius:999px;border:1px solid var(--line);background:color-mix(in srgb,var(--sheet,#fff) 55%,transparent);backdrop-filter:blur(20px) saturate(1.8);-webkit-backdrop-filter:blur(20px) saturate(1.8);box-shadow:0 8px 24px #0000001a,inset 0 1px 0 #ffffff80;cursor:pointer;display:flex;align-items:center}
+.dark .tg{--sheet:#1c1c1e;box-shadow:0 8px 24px #0006,inset 0 1px 0 #ffffff14}
+.tg .knob{position:absolute;top:3px;left:3px;width:40px;height:32px;border-radius:999px;background:var(--sheet,#fff);box-shadow:0 2px 8px #0000002a;transition:transform .5s var(--spring)}
+.dark .tg .knob{background:#3a3a3c;transform:translateX(38px)}
+.tg .ic{position:relative;z-index:1;width:41px;height:100%;display:grid;place-items:center;color:var(--sub);transition:color .4s,transform .5s var(--spring)}
+.tg .ic svg{width:18px;height:18px}
+.tg .ic-sun{color:#ff9f0a}
+.dark .tg .ic-sun{color:var(--sub);transform:rotate(-90deg) scale(.85)}
+.dark .tg .ic-moon{color:#ffd60a}
+.tg .ic-moon{transform:rotate(30deg) scale(.85)}
+.dark .tg .ic-moon{transform:none}
+.tg:active .knob{width:46px}
+
+/* ===== ฉากพระอาทิตย์ตก/ขึ้น ตอนสลับธีม ===== */
+.sky{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.skyg{position:absolute;inset:0;opacity:0}
+.orb{position:absolute;left:0;top:0;width:var(--os,84px);height:var(--os,84px);border-radius:50%;will-change:transform,opacity}
+.sun{background:radial-gradient(circle at 50% 45%,#fff8dc 0%,#ffd98a 40%,#ffab4a 66%,#ff8a3d00 74%);box-shadow:0 0 50px 18px #ffb34a40,0 0 120px 50px #ff8a3d1f;transform:translate(var(--rx),var(--ry)) translate(-50%,-50%);opacity:0}
+.moon{background:transparent;box-shadow:inset calc(var(--os,84px) * .3) calc(var(--os,84px) * -.12) 0 1px #f4efe0;filter:drop-shadow(0 0 10px #eef2ffb0) drop-shadow(0 0 34px #b8c6ff66);transform:translate(var(--rx),var(--ry)) translate(-50%,-50%);opacity:0}
+
+/* ช่วงสลับธีม: สีทุกส่วนไล่เปลี่ยนพร้อมกัน (ชั่วคราว ~2.4s) */
+.swap,.swap *{transition:background-color 1.2s cubic-bezier(.45,.05,.55,.95),color 1.2s cubic-bezier(.45,.05,.55,.95),border-color 1.2s,box-shadow 1.2s,fill 1.2s,stroke 1.2s!important}
+
+/* ===== ปุ่มเสียง (ข้างสวิตช์) ===== */
+.tg{margin-left:-24px}
+.snd{position:absolute;left:50%;top:52px;margin-left:28px;z-index:7;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:color-mix(in srgb,var(--sheet,#fff) 55%,transparent);backdrop-filter:blur(20px) saturate(1.8);-webkit-backdrop-filter:blur(20px) saturate(1.8);box-shadow:0 8px 24px #0000001a,inset 0 1px 0 #ffffff80;color:var(--ink);cursor:pointer;display:grid;place-items:center;transition:transform .2s var(--spring)}
+.dark .snd{--sheet:#1c1c1e;box-shadow:0 8px 24px #0006,inset 0 1px 0 #ffffff14}
+.snd:active{transform:scale(.9)}
+.snd svg{position:absolute;transition:opacity .25s,transform .35s var(--spring)}
+.snd .s-off{opacity:0;transform:scale(.6)}
+.muted .snd .s-on{opacity:0;transform:scale(.6)}.muted .snd .s-off{opacity:1;transform:none;color:var(--sub)}
+
+/* ===== พื้นหลัง: สปอตไลต์ + คลื่น LIVE (โทนขาว-เทา ไม่แย่งซีน) ===== */
+.bgfx{position:absolute;inset:0;overflow:hidden;z-index:0;transition:transform 1.2s var(--ease);--cx:50%;--cy:47%}
+.bgfx .spot{position:absolute;left:var(--cx);top:var(--cy);width:130%;aspect-ratio:1;transform:translate(-50%,-50%);background:radial-gradient(closest-side,#ffffff 0%,#ffffffb0 35%,transparent 70%);animation:breathe 7s ease-in-out infinite}
+.dark .bgfx .spot{background:radial-gradient(closest-side,#ffffff1c 0%,#ffffff0a 40%,transparent 70%)}
+@keyframes breathe{50%{transform:translate(-50%,-50%) scale(1.08);opacity:.8}}
+.bgfx .ping{position:absolute;left:var(--cx);top:var(--cy);width:120vmax;max-width:1600px;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%) scale(.15);opacity:0}
+/* จุดแสงลอยขึ้น (ดัดแปลงจากหน้า login CRM) · ขยับแค่ transform/opacity = GPU ถูก ๆ */
+.motes{position:absolute;inset:0}
+.motes i{position:absolute;bottom:-8px;width:var(--z);height:var(--z);border-radius:50%;background:#98a3b7;box-shadow:0 0 8px 2px #98a3b744;opacity:0;animation:mote linear infinite;will-change:transform,opacity}
+.dark .motes i{background:#ffffffb0;box-shadow:none}
+.app:not(.dark) .motes i{width:calc(var(--z) * 2);height:calc(var(--z) * 2);--ob:.9}
+@keyframes mote{0%{transform:translateY(0) scale(.4);opacity:0}12%{opacity:calc(var(--o) * var(--ob,1))}85%{opacity:calc(var(--o) * var(--ob,1) * .6)}100%{transform:translateY(calc(-1 * var(--travel))) scale(1);opacity:0}}
+.paused .motes i,.paused .spot,.paused .floaty,.paused .shadow,.paused .sheen{animation-play-state:paused}
+@media (prefers-reduced-motion:reduce){.motes{display:none}.floaty,.spot,.sheen,.shadow{animation:none}}
+.bgfx .ping{animation:none;border-width:2px;border-color:color-mix(in srgb,var(--accent) 35%,transparent)}
+.bgfx.pinging .ping{animation:ping 1.6s cubic-bezier(.2,.7,.2,1)}
+@keyframes ping{0%{transform:translate(-50%,-50%) scale(.1);opacity:1}100%{transform:translate(-50%,-50%) scale(.9);opacity:0}}
+.claim .bgfx{transform:scale(1.25) translate(10%,-10%)}
+/* ===== ป้ายคงเหลือ (โหมดขอสิทธิ์) ===== */
+.stock{position:absolute;top:104px;left:16px;z-index:3;display:flex;align-items:center;gap:12px;padding:12px 16px 12px 12px;border-radius:22px;background:color-mix(in srgb,var(--sheet,#fff) 78%,transparent);backdrop-filter:blur(22px) saturate(1.7);-webkit-backdrop-filter:blur(22px) saturate(1.7);border:1px solid var(--line);box-shadow:0 12px 30px #0000001a;opacity:0;transform:translateY(-12px) scale(.96);transition:all .6s var(--ease);pointer-events:none}
+.dark .stock{--sheet:#1c1c1e}
+.claim .stock{opacity:1;transform:none;transition-delay:.35s}
+.stock .ring{position:relative;width:58px;height:58px;flex:none}
+.stock .ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.stock .ring circle{fill:none;stroke-width:6;stroke-linecap:round}
+.stock .trk{stroke:var(--line)}
+.stock .val{stroke:var(--accent);stroke-dasharray:169.6;transition:stroke-dashoffset 1s var(--ease)}
+.stock .ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:1.15rem;font-weight:800;font-variant-numeric:tabular-nums}
+.stock .lbl{font-size:.68rem;font-weight:700;letter-spacing:.04em;color:#30d158;display:flex;align-items:center;gap:6px}
+.stock .live{width:7px;height:7px;border-radius:50%;background:#30d158;box-shadow:0 0 0 0 #30d15888;animation:livep 1.8s infinite}
+@keyframes livep{70%{box-shadow:0 0 0 7px #30d15800}100%{box-shadow:0 0 0 0 #30d15800}}
+.stock .big{line-height:1.1;margin:2px 0}.stock .big b{font-size:1.7rem;font-weight:800;font-variant-numeric:tabular-nums}.stock .big span{font-size:.85rem;color:var(--sub);margin-left:5px}
+.stock .eta{display:flex;align-items:center;gap:5px;font-size:.74rem;color:var(--sub)}
+.claim .count{opacity:0;pointer-events:none;transform:translateY(-20px)}
+.close{top:104px!important}
+
+/* result */
+.toast{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%) scale(.7);opacity:0;z-index:9;text-align:center;pointer-events:none;transition:all .6s var(--spring)}
+.toast.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.toast .ic{width:96px;height:96px;border-radius:50%;margin:0 auto 12px;display:grid;place-items:center;font-size:3rem;color:#fff;background:#30d158;box-shadow:0 20px 50px #30d15866}
+.toast.fail .ic{background:#ff453a;box-shadow:0 20px 50px #ff453a66}
+.toast h3{font-size:1.5rem}.toast p{color:var(--sub);font-size:.9rem;margin-top:4px}
+.veil{position:absolute;inset:0;background:color-mix(in srgb,var(--bg) 70%,transparent);backdrop-filter:blur(8px);opacity:0;transition:opacity .4s;z-index:8;pointer-events:none}
+.veil.on{opacity:1}
+.shake{animation:shake .45s}@keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+
+/* ===== desktop layout (container ≥ 700px) ===== */
+.phone.desk{width:1280px;height:800px}
+@container (min-width:700px){
+  /* desktop: รูปซ้าย · ข้อความ/ฟอร์มขวา */
+  .eyebrow{top:212px;left:700px;right:auto;text-align:left;font-size:.95rem}
+  .title{top:242px;left:700px;right:auto;width:520px;text-align:left;font-size:3.6rem}
+  .title small{font-size:1.15rem}
+  .prodwrap{left:130px;right:auto;top:125px;width:450px;height:575px;margin-left:0}
+  .count{top:369px;left:700px;right:auto;text-align:left}
+  .count .n{font-size:6.5rem;height:6.8rem}
+  .count .bar{margin-left:0;width:260px}
+  .cta{left:700px;bottom:auto;top:558px;transform:none}
+  .cta:active{transform:scale(.96)}
+  /* claim: สินค้าล้นซ้าย · คอลัมน์ขวา = ป้ายคงเหลือ + ฟอร์ม กว้างเท่ากัน กึ่งกลางแนวตั้ง */
+  .claim .prodwrap{transform:translate(-40px,70px) scale(1.75)}
+  .bgfx{--cx:28%;--cy:52%}
+  .claim .bgfx{transform:scale(1.25) translate(-6%,-2%)}
+  .claim .cta{transform:translateY(40px)}
+  .stock{top:108px;left:auto;right:96px;width:440px;padding:14px 20px 14px 14px}
+  .stock .big b{font-size:2rem}
+  .form{left:auto;right:96px;top:234px;bottom:auto;width:440px}
+  .sheet{border-radius:26px;padding:18px 24px 22px;transform:translateX(40px);opacity:0;transition:transform .8s var(--ease) .15s,opacity .5s .15s;box-shadow:0 30px 80px #0000002a}
+  .claim .sheet{transform:none;opacity:1}
+  .grab{display:none}
+  .close{top:28px!important;right:32px}
+  .tg{top:26px}
+  .snd{top:26px}
+}
+</style></head><body>
+<template id="tpl">
+  <div class="bgfx" data-r="bgfx" aria-hidden="true"><div class="spot"></div><div class="motes" data-r="motes"></div><i class="ping"></i></div>
+  <div class="sky" data-r="sky" aria-hidden="true"><div class="skyg" data-r="skyg"></div><div class="orb sun" data-r="sun"></div><div class="orb moon" data-r="moon"></div></div>
+  <button class="tg" data-a="theme" aria-label="สลับโหมดสว่าง/มืด"><span class="knob"></span><span class="ic ic-sun"><svg class="i-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/></svg></span><span class="ic ic-moon"><svg class="i-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z"/></svg></span></button><button class="snd" data-a="snd" aria-label="เปิด/ปิดเสียง"><svg class="s-on" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg><svg class="s-off" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M22 9l-6 6M16 9l6 6"/></svg></button>
+  <div class="eyebrow"><span class="dot"></span>สต๊อกสด · อัปเดตทันที</div>
+  <div class="title"><span data-r="pname">ไลโอแฮร์ครีมซิลเวอร์</span><small data-r="pname2">Silver Block Micro-Fine Hair Cream</small></div>
+  <div class="prodwrap" data-r="pw"><div class="floaty"><div class="prod" data-r="prod"><div class="sheen"></div></div></div><div class="shadow"></div></div>
+  <div class="count"><div class="n" data-r="num"></div><div class="of">คงเหลือ จาก <span data-r="tot">–</span> ชิ้น<span class="brk"> · </span><span data-r="eta1">ของเข้า 28 ต.ค.</span></div><div class="bar"><i data-r="bar"></i></div></div>
+  <button class="cta" data-a="open" data-r="cta">ขอใช้สิทธิ์</button>
+  <div class="neterr" data-r="neterr">การเชื่อมต่อขัดข้อง · กำลังลองใหม่</div>
+  <button class="close" data-a="close" aria-label="ปิด">✕</button>
+  <div class="stock">
+    <div class="ring"><svg viewBox="0 0 64 64"><circle class="trk" cx="32" cy="32" r="27"/><circle class="val" data-r="ringv" cx="32" cy="32" r="27"/></svg><b data-r="sn">12</b></div>
+    <div class="info"><div class="lbl"><i class="live"></i>คงเหลือ · LIVE</div><div class="big"><b data-r="sn2">12</b><span>/ <i data-r="tot2" style="font-style:normal">–</i> ชิ้น</span></div><div class="eta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg><span data-r="eta2">ของเข้า 28 ต.ค.</span></div></div>
+  </div>
+
+  <div class="form"><div class="sheet" data-r="sheet">
+    <div class="grab"></div>
+    <div class="steps"><i data-r="d1" class="on"></i><i data-r="d2"></i></div>
+    <div class="stage2" data-r="stage">
+      <section class="st st1">
+        <div class="sh">รหัสพนักงาน</div>
+        <div class="chips"><button data-p="j">j</button><button data-p="m">m</button><button data-p="C">C</button></div>
+        <div class="codebig" data-r="code"></div>
+        <div class="hintline" data-r="chint"></div>
+      </section>
+      <section class="st st2">
+        <div class="who">รหัส <b data-r="who"></b><button data-a="edit">แก้ไข</button></div>
+        <div class="sh">จำนวนที่ขอ</div>
+        <div class="qtyrow"><button class="stp" data-s="-1" data-r="minus" aria-label="ลด"><svg width="26" height="26" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M4 10h12"/></svg></button><div class="val"><b data-r="qv">0</b><small>ชิ้น</small></div><button class="stp" data-s="1" data-r="plus" aria-label="เพิ่ม"><svg width="26" height="26" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M4 10h12"/><path d="M10 4v12"/></svg></button></div>
+        <div class="hintline" data-r="qmax"></div>
+      </section>
+    </div>
+    <div class="pad" data-r="pad"></div>
+    <button class="go" data-r="go" data-a="go" disabled>ถัดไป</button>
+  </div></div>
+  <div class="veil" data-r="veil"></div>
+  <div class="toast" data-r="toast"><div class="ic" data-r="tic">✓</div><h3 data-r="tt">ขอสิทธิ์สำเร็จ</h3><p data-r="tp"></p></div>
+</template>
+<div class="stagewrap"><div class="phone app loading" id="app"></div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const LEN={j:2,m:2,C:3};let SHARED=0,TOTAL=0,LOADED=false;const apps=[];
+const SB=supabase.createClient('https://swbxecjguiohpwllvues.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN3YnhlY2pndWlvaHB3bGx2dWVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA1ODY3MjUsImV4cCI6MjA5NjE2MjcyNX0.8j9wgyt-tvloBmANuFPJYK2bJCWd_oMWnBhVvZY2NL4',{auth:{persistSession:false}});
+const ITEM=new URLSearchParams(location.search).get('item')||'lyo-silver-block';
+const REASON={bad_code:'รหัสพนักงานไม่ถูกต้อง',bad_qty:'จำนวนไม่ถูกต้อง',no_item:'ไม่พบสินค้านี้แล้ว',net:'เชื่อมต่อไม่ได้ · ลองใหม่อีกครั้ง'};
+// ---------- ข้อมูล: โหลด + realtime + poll สำรอง ----------
+function applyItem(it){TOTAL=it.qty_total;const a=apps[0];
+  a.q('pname').textContent=it.name;a.q('pname2').textContent=it.name_en||'';a.q('tot').textContent=TOTAL;a.q('tot2').textContent=TOTAL;
+  const eta=it.restock_note||'';a.q('eta1').textContent=eta;a.q('eta2').textContent=eta;document.title=it.name+' · เช็คสต๊อก & ขอใช้สิทธิ์'}
+function onServer(n,why){   // ค่าจริงจาก server (realtime / poll / ผล RPC)
+  const a=apps[0];if(!a)return;if(a.busy){a.pendingServer=n;return}   // ระหว่างขอสิทธิ์ของตัวเอง → เก็บไว้ sync หลัง toast
+  if(!LOADED){LOADED=true;SHARED=n;a.root.classList.remove('loading');a.countIn();return}
+  if(n===SHARED)return;const drop=n<SHARED;SHARED=n;if(why!=='self'&&drop)Snd.ping();a.tickTo(n)}
+async function fetchItem(){const {data,error}=await SB.from('stock_items').select('*').eq('slug',ITEM).maybeSingle();
+  if(error||!data){apps[0].net(true);return false}apps[0].net(false);applyItem(data);onServer(data.qty_left,'poll');return true}
+function subscribe(){SB.channel('stock-'+ITEM).on('postgres_changes',{event:'UPDATE',schema:'public',table:'stock_items',filter:'slug=eq.'+ITEM},p=>{if(p.new){applyItem(p.new);onServer(p.new.qty_left,'rt')}})
+  .subscribe(st=>{if(st==='SUBSCRIBED')fetchItem();})}
+setInterval(()=>{if(!document.hidden)fetchItem()},20000);                  // สำรองกรณี realtime หลุด
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)fetchItem()});
+// ---------- scale ให้พอดีจอ ----------
+function fit(){const a=apps[0];if(!a)return;const vw=innerWidth,vh=innerHeight,desk=vw>=900&&vw>vh;
+  a.root.classList.toggle('desk',desk);let W,H,sc;
+  if(desk){W=1280;H=800;sc=Math.min(vw/W,vh/H)}
+  else{H=844;sc=Math.min(vw/390,vh/H);W=Math.min(680,Math.max(390,vw/sc))}   // มือถือ: ความสูงคงที่ ขยายกว้างได้ (องค์ประกอบจัดกลาง)
+  const el=a.root;el.style.width=W+'px';el.style.height=H+'px';el.style.left=((vw-W*sc)/2)+'px';el.style.top=((vh-H*sc)/2)+'px';el.style.transform=`scale(${sc})`;a.layoutOrbs()}
+addEventListener('resize',fit);
+
+const SFX=Object.fromEntries(['rooster','wolf','next','success','fail','ping','ambient','toggle'].map(k=>[k,`assets/sfx/${k}.mp3`]));   // Mixkit (ตัด+normalize) · ที่เหลือใช้เสียงสังเคราะห์เดิม
+const Snd={ctx:null,on:localStorage.getItem('stockSnd')!=='0',
+ ac(){if(!this.on)return null;if(!this.ctx){const A=window.AudioContext||window.webkitAudioContext;if(!A)return null;this.ctx=new A();this.master=this.ctx.createGain();this.master.gain.value=.66;this.master.connect(this.ctx.destination);Object.keys(SFX).forEach(k=>this.load(k))}if(this.ctx.state==='suspended')this.ctx.resume();return this.ctx},
+ tone(f,at,dur,{type='sine',vol=.18,to=null,att=.004}={}){const c=this.ac();if(!c)return;const t=c.currentTime+at,o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.setValueAtTime(f,t);if(to)o.frequency.exponentialRampToValueAtTime(to,t+dur);
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+att);g.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(g).connect(this.master);o.start(t);o.stop(t+dur+.02)},
+ whoosh(up,dur){const c=this.ac();if(!c)return;const t=c.currentTime,n=c.sampleRate*dur,b=c.createBuffer(1,n,c.sampleRate),d=b.getChannelData(0);for(let i=0;i<n;i++)d[i]=Math.random()*2-1;
+  const s=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain();s.buffer=b;f.type='bandpass';f.Q.value=1.2;f.frequency.setValueAtTime(up?300:1800,t);f.frequency.exponentialRampToValueAtTime(up?2200:250,t+dur);
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.16,t+dur*.35);g.gain.exponentialRampToValueAtTime(.0001,t+dur);s.connect(f).connect(g).connect(this.master);s.start(t);s.stop(t+dur)},
+ tap(){this.tone(1500,0,.045,{type:'triangle',vol:.10,to:900})},
+ tick(up){this.tone(up?1250:820,0,.06,{type:'sine',vol:.14,to:up?1500:700})},
+ select(){this.tone(1100,0,.05,{type:'triangle',vol:.1})},
+ next(){if(this.bufs.next)return this.sample('next',0,.55);this.tone(740,0,.12,{vol:.12});this.tone(1110,.08,.16,{vol:.12})},
+ open(){this.whoosh(true,.8);this.tone(520,.05,.5,{vol:.05,to:880})},
+ close(){this.whoosh(false,.55)},
+ success(){if(this.bufs.success)return this.sample('success',0,.55);[523.25,659.25,783.99,1046.5].forEach((f,i)=>this.tone(f,i*.075,.5,{vol:.12}));this.tone(2093,.3,.6,{vol:.04})},
+ fail(){if(this.bufs.fail)return this.sample('fail',0,.55);this.tone(220,0,.16,{type:'square',vol:.06,to:180});this.tone(196,.2,.22,{type:'square',vol:.06,to:150})},
+ ping(){if(this.bufs.ping)return this.sample('ping',0,.55);this.tone(1318.5,0,.35,{vol:.07});this.tone(1760,.06,.4,{vol:.05})},
+ roll(){this.tone(900,0,.03,{type:'triangle',vol:.06});this.tone(700,.09,.03,{type:'triangle',vol:.06})},
+ toggle(){if(this.bufs.toggle)return this.sample('toggle',0,.55);this.tone(600,0,.05,{type:'triangle',vol:.1,to:900});this.tone(900,.05,.05,{type:'triangle',vol:.08})},
+ bufs:{},loading:{},
+ load(k){   // ไฟล์เสียงจริง (Mixkit · ตัด+normalize แล้ว) · decode ครั้งเดียวเก็บไว้
+  if(this.bufs[k])return Promise.resolve(this.bufs[k]);if(this.loading[k])return this.loading[k];const c=this.ctx;if(!c)return Promise.resolve(null);
+  return this.loading[k]=fetch(SFX[k]).then(r=>r.arrayBuffer()).then(ab=>c.decodeAudioData(ab)).then(b=>this.bufs[k]=b).catch(e=>{console.warn('sfx',k,e);return null})},
+ sample(k,at=0,vol=.55){const c=this.ac();if(!c)return;this.load(k).then(b=>{if(!b)return;const s=c.createBufferSource(),g=c.createGain();s.buffer=b;g.gain.value=vol;s.connect(g).connect(this.master);s.start(Math.max(c.currentTime,c.currentTime+at))})},
+ crow(at=0){this.sample('rooster',at)},   // ไก่ขัน (ตอนอาทิตย์ขึ้น)
+ howl(at=0){this.sample('wolf',at)},      // หมาป่าหอน (ตอนอาทิตย์ตก)
+ dusk(){this.tone(440,0,1.4,{vol:.07,to:196,att:.08});this.tone(660,.05,1.3,{vol:.04,to:294,att:.1});this.whoosh(false,1.2)},
+ dawn(){this.tone(262,0,1.3,{vol:.06,to:523,att:.1});this.tone(392,.12,1.2,{vol:.045,to:784,att:.1});this.tone(1568,.7,.8,{vol:.025})},
+ setOn(v){this.on=v;localStorage.setItem('stockSnd',v?'1':'0');document.querySelectorAll('.app').forEach(a=>a.classList.toggle('muted',!v));if(v)this.toggle()}
+};
+class App{
+ constructor(root){this.root=root;root.appendChild(tpl.content.cloneNode(true));this.q=r=>root.querySelector(`[data-r="${r}"]`);
+  this.prefix='C';this.code='';this.qty='';this.field='code';
+  this.q('pad').innerHTML=['1','2','3','4','5','6','7','8','9','','0','⌫'].map(k=>k?`<button class="${k==='⌫'?'fn':''}" data-k="${k}" aria-label="${k==='⌫'?'ลบ':k}">${k}</button>`:'<span></span>').join('');
+  root.addEventListener('click',ev=>{const t=ev.target.closest('[data-s],[data-k],[data-p],[data-f],[data-a]');if(!t)return;
+    if(t.dataset.s){ev.stopPropagation();Snd.tick(+t.dataset.s>0);this.step(+t.dataset.s);return}
+    if(t.dataset.k){ev.stopPropagation();Snd.tap();this.key(t.dataset.k)}else if(t.dataset.p){ev.stopPropagation();Snd.select();this.pre(t.dataset.p)}
+    else if(t.dataset.a==='open')this.open();else if(t.dataset.a==='close')this.close();else if(t.dataset.a==='go')this.primary();else if(t.dataset.a==='edit'){this.setStep(1);this.upd()}else if(t.dataset.a==='theme'){const r=t.getBoundingClientRect(),side=ev.target.closest('.ic-sun')?0:ev.target.closest('.ic-moon')?1:(ev.clientX>r.left+r.width/2?1:0);this.themeSwap(!!side)}else if(t.dataset.a==='snd'){Snd.setOn(!Snd.on)}else if(t.dataset.f)this.focusF(t.dataset.f)});
+  const pr=this.q('prod');root.addEventListener('pointermove',e=>{if(root.classList.contains('claim'))return;const r=root.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;pr.style.transform=`rotateY(${x*18}deg) rotateX(${-y*12}deg)`});
+  root.addEventListener('pointerleave',()=>pr.style.transform='');
+  this.stepN=1;this.pre('C',true);this.upd();this.layoutOrbs();
+  const mo=this.q('motes'),N=root.classList.contains('desk')?28:18,H=root.clientHeight+20;   // จำนวนน้อย = เบาเครื่อง
+  for(let i=0;i<N;i++){const d=document.createElement('i');const z=Math.random()*2.2+1;
+   d.style.cssText=`--z:${z}px;left:${Math.random()*100}%;--travel:${H}px;--o:${(Math.random()*.45+.25).toFixed(2)};animation-duration:${14+Math.random()*16}s;animation-delay:${-Math.random()*30}s`;mo.appendChild(d)}
+  this.paint(0);
+ }
+ layoutOrbs(){   // วงล้อทรงรี: อาทิตย์กับจันทร์อยู่ตรงข้ามกันบนวงเดียว
+  const W=this.root.clientWidth,H=this.root.clientHeight,desk=this.root.classList.contains('desk');
+  this.W=W;this.H=H;this.orb={cx:W/2,cy:H*(desk?.36:.55),a:W*(desk?.46:.5),b:H*(desk?.36:.42)};   // desktop: ยกวงขึ้น ให้จุดค้างอยู่เหนือกล่องสินค้า
+  this.root.style.setProperty('--os',(desk?110:78)+'px');const p=this.orbAt(225);this.root.style.setProperty('--rx',p[0]+'px');this.root.style.setProperty('--ry',p[1]+'px')}
+ orbAt(deg){const o=this.orb,t=deg*Math.PI/180;return [o.cx+o.a*Math.cos(t),o.cy+o.b*Math.sin(t)]}
+ nudge(){const kn=this.root.querySelector('.tg .knob'),dark=this.root.classList.contains('dark'),x=dark?38:0,d=dark?-5:5;Snd.tap();
+  kn.animate([{transform:`translateX(${x}px)`},{transform:`translateX(${x+d}px) scaleX(1.06)`},{transform:`translateX(${x}px)`}],{duration:320,easing:'cubic-bezier(.34,1.56,.64,1)'})}
+ themeSwap(wantDark){   // หมุนวงล้อตามเข็มครึ่งรอบ: ดวงเดิมจากซ้ายบน → ข้ามด้านบน → ลงขวา · ดวงใหม่จากล่าง → ผ่านซ้าย → ขึ้นซ้ายบน
+  if(this.swapping)return;const isDark=this.root.classList.contains('dark');if(wantDark===undefined)wantDark=!isDark;
+  if(wantDark===isDark){this.nudge();return}   // แตะโหมดเดิม = ไม่สลับ แค่เด้งบอก
+  const toDark=wantDark;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches||!this.root.animate){Snd.toggle();this.root.classList.toggle('dark');return}
+  this.swapping=true;this.layoutOrbs();toDark?Snd.dusk():Snd.dawn();Snd.toggle();toDark?Snd.howl(.7):Snd.crow(1.3);Snd.sample('ambient',0,.4);   // หมาหอนตอนอาทิตย์ลับ · ไก่ขันตอนอาทิตย์โผล่
+  const g=this.q('skyg'),D=2400,N=60,S0=225;
+  const outgoing=toDark?this.q('sun'):this.q('moon'),incoming=toDark?this.q('moon'):this.q('sun');
+  const ease=t=>-(Math.cos(Math.PI*t)-1)/2;                       // ease-in-out sine (คุมความเร็วบนวง)
+  const frames=(start,op,rot)=>Array.from({length:N+1},(_,i)=>{const u=i/N,deg=start+180*ease(u),[x,y]=this.orbAt(deg),rad=deg*Math.PI/180;
+    const depth=.86+.24*(Math.sin(rad)+1)/2;                      // ล่างวง = ใกล้ = ใหญ่ขึ้นนิด
+    return {transform:`translate(${x}px,${y}px) translate(-50%,-50%) rotate(${rot}deg) scale(${depth})`,opacity:op(u),offset:u}});
+  const clamp=v=>Math.max(0,Math.min(1,v));
+  // สวิตช์เลื่อนตามวงล้อ (ease เดียวกัน) · กลางทางยืดแบบ iOS · สี knob ไล่ขาว⇄เทาเข้ม
+  const tg=this.root.querySelector('.tg'),kn=tg.querySelector('.knob'),iS=tg.querySelector('.ic-sun'),iM=tg.querySelector('.ic-moon');
+  const lin=(a,b,u)=>a+(b-a)*u,KN=Array.from({length:N+1},(_,i)=>{const u=i/N,e=ease(u),p=toDark?e:1-e;
+    return {transform:`translateX(${38*p}px) scaleX(${1+.16*Math.sin(Math.PI*u)})`,backgroundColor:`rgb(${Math.round(lin(255,58,p))},${Math.round(lin(255,58,p))},${Math.round(lin(255,60,p))})`,offset:u}});
+  kn.animate(KN,{duration:D,easing:'linear',fill:'both'});
+  const ico=(sunSide)=>Array.from({length:N+1},(_,i)=>{const u=i/N,p=toDark?ease(u):1-ease(u);   // p: 0=สว่าง 1=มืด
+    const on=sunSide?1-p:p,rot=sunSide?-90*p:30*(1-p),sc=.85+.15*on;
+    return {transform:`rotate(${rot}deg) scale(${sc})`,color:sunSide?`rgb(${Math.round(lin(142,255,on))},${Math.round(lin(142,159,on))},${Math.round(lin(147,10,on))})`:`rgb(${Math.round(lin(142,255,on))},${Math.round(lin(142,214,on))},${Math.round(lin(147,10,on))})`,offset:u}});
+  iS.animate(ico(true),{duration:D,easing:'linear',fill:'both'});iM.animate(ico(false),{duration:D,easing:'linear',fill:'both'});
+  this.root.classList.add('swap');
+  outgoing.animate(frames(S0,u=>.9*clamp(u/.1)*clamp((.6-u)/.14),toDark?0:-18),{duration:D,easing:'linear',fill:'both'});
+  // ดวงที่ขึ้น: หมุนขึ้นจนสุด (D) → ค้างนิ่ง HOLD (ลอยเบา ๆ) → จางหาย FADE
+  const HOLD=800,FADE=700,TOT=D+HOLD+FADE,rotIn=toDark?-18:0,R=this.orbAt(S0);
+  const kIn=frames(S0-180,u=>.95*clamp((u-.35)/.25),rotIn).map(f=>({...f,offset:f.offset*D/TOT}));
+  const at=(dy,sc,op,off)=>({transform:`translate(${R[0]}px,${R[1]+dy}px) translate(-50%,-50%) rotate(${rotIn}deg) scale(${sc})`,opacity:op,offset:off});
+  const dep=.86+.24*(Math.sin(S0*Math.PI/180)+1)/2;
+  kIn.push(at(-4,dep,.95,(D+HOLD*.5)/TOT),at(0,dep,.95,(D+HOLD)/TOT),at(-6,dep*(toDark?.94:1.12),0,1));
+  incoming.animate(kIn,{duration:TOT,easing:'linear',fill:'both'});
+  g.style.background=toDark?'linear-gradient(180deg,#2b2350 0%,#7a3b6e 40%,#e2656b 72%,#ffb36b 100%)':'linear-gradient(180deg,#8ec5ff 0%,#ffd7a8 60%,#ffb070 100%)';
+  g.animate([{opacity:0},{opacity:.55,offset:.2},{opacity:.85,offset:.38},{opacity:.85,offset:.5},{opacity:.4,offset:.72},{opacity:0}],{duration:D,easing:'cubic-bezier(.45,.05,.55,.95)'});
+  setTimeout(()=>this.root.classList.toggle('dark'),D*.3);   // เริ่มไล่สีธีม (1.2s) ให้จบก่อนวงล้อหยุด
+  setTimeout(()=>{[outgoing,kn,iS,iM].forEach(el=>el.getAnimations().forEach(a=>a.cancel()));this.root.classList.remove('swap')},D+80);   // คืนให้ CSS (ค่าเท่าเฟรมสุดท้าย)
+  setTimeout(()=>{incoming.getAnimations().forEach(a=>a.cancel());this.swapping=false},TOT+80);
+ }
+ countIn(){let c0=TOTAL;const iv=setInterval(()=>{if(c0<=SHARED){clearInterval(iv);this.renderNum();return}c0--;this.paint(c0)},Math.max(25,Math.min(70,1200/Math.max(1,TOTAL-SHARED))))}
+ net(on){this.q('neterr').classList.toggle('on',!!on)}
+ paint(v){this.q('num').innerHTML=[...String(v)].map(c=>`<span>${c}</span>`).join('');this.q('bar').style.width=(TOTAL?v/TOTAL*100:0)+'%'}
+ renderNum(){this.paint(SHARED);this.q('sn').textContent=SHARED;this.q('sn2').textContent=SHARED;this.q('ringv').style.strokeDashoffset=169.6*(1-(TOTAL?SHARED/TOTAL:0));const cta=this.q('cta'),out=SHARED<=0;cta.classList.toggle('out',out);cta.textContent=out?'หมดแล้ว'+(this.q('eta1').textContent?' · '+this.q('eta1').textContent:''):'ขอใช้สิทธิ์';this.q('qmax').textContent='สูงสุด '+SHARED+' ชิ้น'}
+ tickTo(n){const fx=this.q('bgfx');fx.classList.remove('pinging');void fx.offsetWidth;fx.classList.add('pinging');[...this.q('num').children].forEach(sp=>sp.style.transform='translateY(-110%)');
+  setTimeout(()=>{this.renderNum();[...this.q('num').children].forEach(sp=>{sp.style.transition='none';sp.style.transform='translateY(110%)';requestAnimationFrame(()=>requestAnimationFrame(()=>{sp.style.transition='';sp.style.transform='translateY(0)'}))})},260)}
+ open(){if(!LOADED||SHARED<=0){if(LOADED)Snd.fail();return}const m=JSON.parse(localStorage.getItem('stockClaimLast')||'null');   // จำรหัสล่าสุด
+  if(m&&LEN[m.p]&&(m.c||'').length===LEN[m.p]){this.prefix=m.p;this.code=m.c}
+  this.qty='';this.setStep(this.code.length===LEN[this.prefix]?2:1);Snd.open();this.root.classList.add('claim');this.upd()}
+ close(silent){if(!silent)Snd.close();this.root.classList.remove('claim');this.qty='';this.upd()}
+ setStep(n){this.stepN=n;this.q('stage').classList.toggle('s2',n===2);this.q('d1').classList.toggle('on',n===1);this.q('d2').classList.toggle('on',n===2)}
+ pre(p,init){if(p!==this.prefix)this.code='';this.prefix=p;if(!init)this.setStep(1);this.upd()}   // เปลี่ยนตัวอักษร = ล้างเลข
+ focusF(){}
+ step(d){const n=Math.min(SHARED,Math.max(1,(+this.qty||0)+d));if(String(n)!==this.qty){this.qty=String(n);this.upd();this.bump()}}
+ bump(){const v=this.q('qv');v.classList.remove('bump');void v.offsetWidth;v.classList.add('bump');setTimeout(()=>v.classList.remove('bump'),200)}
+ key(k){
+  if(this.stepN===1){if(k==='⌫')this.code=this.code.slice(0,-1);else if(this.code.length<LEN[this.prefix]){this.code+=k;if(this.code.length===LEN[this.prefix]){this.upd();localStorage.setItem('stockClaimLast',JSON.stringify({p:this.prefix,c:this.code}));setTimeout(()=>{Snd.next();this.setStep(2);this.upd()},220)}}}
+  else{if(k==='⌫')this.qty=this.qty.slice(0,-1);else{const n=(this.qty+k).replace(/^0+/,'');if(+n<=SHARED){this.qty=n;this.bump()}else{const v=this.q('qv');v.parentElement.classList.remove('shake');void v.offsetWidth;v.parentElement.classList.add('shake')}}}
+  this.upd()}
+ primary(){if(this.stepN===1){if(this.code.length===LEN[this.prefix])this.setStep(2);this.upd()}else this.submit()}
+ upd(){const L=LEN[this.prefix];
+  this.root.querySelectorAll('.chips button').forEach(b=>b.classList.toggle('on',b.dataset.p===this.prefix));
+  const rest=L-this.code.length;
+  this.q('code').innerHTML=`${this.prefix}${this.code}${rest?'<span class="car"></span><span class="ph">'+'_'.repeat(rest)+'</span>':''}`;
+  this.q('chint').textContent=this.prefix==='C'?'C ตามด้วยเลข 3 หลัก เช่น C203':this.prefix+' ตามด้วยเลข 2 หลัก เช่น '+this.prefix+'10';
+  this.q('who').textContent=this.prefix+this.code;
+  const qv=this.q('qv');qv.textContent=this.qty||'0';qv.classList.toggle('ph',!this.qty);
+  this.q('qmax').textContent='ขอได้ 1 – '+SHARED+' ชิ้น (เหลือ '+SHARED+')';
+  this.q('minus').disabled=!(+this.qty>1);this.q('plus').disabled=(+this.qty||0)>=SHARED;
+  const go=this.q('go');
+  if(this.stepN===1){go.textContent='ถัดไป';go.disabled=this.code.length!==L}
+  else{go.textContent=+this.qty>0?`ขอใช้สิทธิ์ ${this.qty} ชิ้น`:'เลือกจำนวน';go.disabled=!(+this.qty>0)}}
+ async submit(){const go=this.q('go');if(go.disabled||this.busy)return;const want=+this.qty,code=this.prefix+this.code;
+  this.busy=true;this.pendingServer=null;go.disabled=true;this.q('veil').classList.add('on');const t0=Date.now();
+  let res;try{const r=await SB.rpc('stock_claim',{p_slug:ITEM,p_emp:code,p_qty:want});if(r.error)throw r.error;res=r.data}catch(e){console.error(e);res={ok:false,reason:'net'}}
+  await new Promise(r=>setTimeout(r,Math.max(0,450-(Date.now()-t0))));   // จังหวะเดิมของ motion
+  const ok=!!res.ok,t=this.q('toast');if(ok)localStorage.setItem('stockClaimLast',JSON.stringify({p:this.prefix,c:this.code}));
+  t.classList.toggle('fail',!ok);this.q('tic').textContent=ok?'✓':'!';
+  this.q('tt').textContent=ok?'ขอสิทธิ์สำเร็จ':(res.reason==='insufficient'?'สิทธิ์ไม่พอแล้ว':'ขอสิทธิ์ไม่สำเร็จ');
+  this.q('tp').textContent=ok?`${code} · ${want} ชิ้น · เหลือ ${res.left} ชิ้น`:(res.reason==='insufficient'?(res.left>0?`มีคนขอไปก่อน · ตอนนี้เหลือ ${res.left} ชิ้น`:'มีคนขอไปก่อนหน้าเสี้ยววินาที · สินค้าหมดแล้ว'):(REASON[res.reason]||'ลองใหม่อีกครั้ง'));
+  if(ok)Snd.success();else Snd.fail();t.classList.add('on');
+  setTimeout(()=>{t.classList.remove('on');this.q('veil').classList.remove('on');
+    if(ok||res.reason==='insufficient')this.close();else{this.busy=false;this.upd();}
+    setTimeout(()=>{this.busy=false;let n=typeof res.left==='number'?res.left:SHARED;if(this.pendingServer!=null)n=Math.min(n,this.pendingServer);this.pendingServer=null;
+      if(n!==SHARED){SHARED=n;Snd.roll();this.tickTo(n)}else this.renderNum();setTimeout(fetchItem,800)},500)},1700)}
+}
+document.querySelectorAll('.app').forEach(r=>{const th=localStorage.getItem('stockTheme');if(th?th==='dark':matchMedia('(prefers-color-scheme: dark)').matches)r.classList.add('dark');
+  apps.push(new App(r));r.classList.toggle('muted',!Snd.on)});
+fit();fetchItem().then(subscribe);
+new MutationObserver(()=>{const d=apps[0].root.classList.contains('dark');document.body.classList.toggle('dk',d);localStorage.setItem('stockTheme',d?'dark':'light');
+  document.querySelector('meta[name=theme-color]').content=d?'#000000':'#f5f5f7'}).observe(apps[0].root,{attributes:true,attributeFilter:['class']});
+document.body.classList.toggle('dk',apps[0].root.classList.contains('dark'));
+document.addEventListener('visibilitychange',()=>apps.forEach(a=>a.root.classList.toggle('paused',document.hidden)));   // สลับแท็บ/ล็อกจอ = หยุดแอนิเมชัน
+</script>
+</body></html>
