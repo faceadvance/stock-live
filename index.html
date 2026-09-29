@@ -198,23 +198,23 @@ body.dk{background:#000}
 .phone.desk{width:1280px;height:800px}
 @container (min-width:700px){
   /* desktop: รูปซ้าย · ข้อความ/ฟอร์มขวา */
-  .eyebrow{top:212px;left:700px;right:auto;text-align:left;font-size:.95rem}
-  .title{top:242px;left:700px;right:auto;width:520px;text-align:left;font-size:3.6rem}
+  .eyebrow{top:calc(212px + var(--dy,0px));left:calc(700px + var(--dx,0px));right:auto;text-align:left;font-size:.95rem}
+  .title{top:calc(242px + var(--dy,0px));left:calc(700px + var(--dx,0px));right:auto;width:520px;text-align:left;font-size:3.6rem}
   .title small{font-size:1.15rem}
-  .prodwrap{left:130px;right:auto;top:125px;width:450px;height:575px;margin-left:0}
-  .count{top:369px;left:700px;right:auto;text-align:left}
+  .prodwrap{left:calc(130px + var(--dx,0px));right:auto;top:calc(125px + var(--dy,0px));width:450px;height:575px;margin-left:0}
+  .count{top:calc(369px + var(--dy,0px));left:calc(700px + var(--dx,0px));right:auto;text-align:left}
   .count .n{font-size:6.5rem;height:6.8rem}
   .count .bar{margin-left:0;width:260px}
-  .cta{left:700px;bottom:auto;top:558px;transform:none}
+  .cta{left:calc(700px + var(--dx,0px));bottom:auto;top:calc(558px + var(--dy,0px));transform:none}
   .cta:active{transform:scale(.96)}
   /* claim: สินค้าล้นซ้าย · คอลัมน์ขวา = ป้ายคงเหลือ + ฟอร์ม กว้างเท่ากัน กึ่งกลางแนวตั้ง */
   .claim .prodwrap{transform:translate(-40px,70px) scale(1.75)}
   .bgfx{--cx:28%;--cy:52%}
   .claim .bgfx{transform:scale(1.25) translate(-6%,-2%)}
   .claim .cta{transform:translateY(40px)}
-  .stock{top:108px;left:auto;right:96px;width:440px;padding:14px 20px 14px 14px}
+  .stock{top:calc(108px + var(--dy,0px));left:auto;right:calc(96px + var(--dx,0px));width:440px;padding:14px 20px 14px 14px}
   .stock .big b{font-size:2rem}
-  .form{left:auto;right:96px;top:234px;bottom:auto;width:440px}
+  .form{left:auto;right:calc(96px + var(--dx,0px));top:calc(234px + var(--dy,0px));bottom:auto;width:440px}
   .sheet{border-radius:26px;padding:18px 24px 22px;transform:translateX(40px);opacity:0;transition:transform .8s var(--ease) .15s,opacity .5s .15s;box-shadow:0 30px 80px #0000002a}
   .claim .sheet{transform:none;opacity:1}
   .grab{display:none}
@@ -291,7 +291,7 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden)fetchItem(
 // ---------- scale ให้พอดีจอ ----------
 function fit(){const a=apps[0];if(!a)return;const vw=innerWidth,vh=innerHeight,desk=vw>=900&&vw>vh;
   a.root.classList.toggle('desk',desk);let W,H,sc;
-  if(desk){W=1280;H=800;sc=Math.min(vw/W,vh/H)}
+  if(desk){sc=Math.min(vw/1280,vh/800);W=vw/sc;H=vh/sc;a.root.style.setProperty('--dx',((W-1280)/2)+'px');a.root.style.setProperty('--dy',((H-800)/2)+'px')}   // desktop: เต็มจอ เนื้อหาอยู่กลาง
   else{H=844;sc=Math.min(vw/390,vh/H);W=Math.min(680,Math.max(390,vw/sc))}   // มือถือ: ความสูงคงที่ ขยายกว้างได้ (องค์ประกอบจัดกลาง)
   const el=a.root;el.style.width=W+'px';el.style.height=H+'px';el.style.left=((vw-W*sc)/2)+'px';el.style.top=((vh-H*sc)/2)+'px';el.style.transform=`scale(${sc})`;a.layoutOrbs()}
 addEventListener('resize',fit);
