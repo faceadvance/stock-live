@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<title>ไลโอแฮร์ครีมซิลเวอร์ · เช็คสต๊อก &amp; ขอใช้สิทธิ์</title>
+<title>เช็คสต๊อกสด · ขอใช้สิทธิ์</title>
 <meta name="theme-color" content="#f5f5f7">
-<meta property="og:title" content="ไลโอแฮร์ครีมซิลเวอร์ · เช็คสต๊อกสด">
-<meta property="og:description" content="ดูจำนวนคงเหลือแบบ real-time และขอใช้สิทธิ์สินค้า">
+<meta property="og:title" content="เช็คสต๊อกสด · ขอใช้สิทธิ์">
+<meta property="og:description" content="ดูจำนวนคงเหลือแบบ real-time และขอใช้สิทธิ์สินค้า · ปัดดูสินค้าอื่น">
 <meta property="og:image" content="https://faceadvance.github.io/stock-live/assets/og.jpg">
 <meta property="og:type" content="website">
 <link rel="icon" type="image/png" href="assets/icon.png"><link rel="apple-touch-icon" href="assets/icon.png">
@@ -20,6 +20,17 @@ body.dk{background:#000}
 .cta{white-space:nowrap}
 .cta.out{background:#8e8e93;box-shadow:none;cursor:not-allowed}.cta.out::after{display:none}
 .neterr{position:absolute;left:50%;top:14px;transform:translateX(-50%);z-index:9;font-size:.78rem;padding:6px 12px;border-radius:999px;background:#ff453a;color:#fff;opacity:0;transition:opacity .3s;pointer-events:none}.neterr.on{opacity:1}
+.app{--img:url(assets/product.webp)}
+.prodwrap{touch-action:none}
+.prod{transition:transform .25s ease-out,background-position 1.1s var(--ease)}.claim .prod{background-position:0 50%}
+.pager{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);z-index:6;display:flex;gap:4px;transition:opacity .4s}
+.pager button{width:22px;height:22px;padding:0;border:0;background:none;cursor:pointer;display:grid;place-items:center}
+.pager button::before{content:"";width:7px;height:7px;border-radius:999px;background:var(--sub);opacity:.35;transition:width .4s var(--ease),opacity .4s,background .4s}
+.pager button.on::before{width:20px;opacity:1;background:var(--accent)}
+.nav{display:none;position:absolute;z-index:6;width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:color-mix(in srgb,var(--sheet,#fff) 60%,transparent);backdrop-filter:blur(20px) saturate(1.8);-webkit-backdrop-filter:blur(20px) saturate(1.8);color:var(--ink);cursor:pointer;place-items:center;transition:opacity .4s,transform .3s var(--spring)}
+.dark .nav{--sheet:#1c1c1e;box-shadow:0 8px 24px #0006,inset 0 1px 0 #ffffff14}.nav:hover{transform:scale(1.08)}.nav:active{transform:scale(.92)}.nav svg{width:22px;height:22px}
+.single .pager,.single .nav{display:none!important}
+.claim .pager,.claim .nav,.loading .pager,.loading .nav{opacity:0;pointer-events:none}
 
 /* ===== devices ===== */
 .phone{position:relative;width:390px;height:844px;border-radius:52px;overflow:hidden;background:var(--bg);box-shadow:0 0 0 10px #111,0 40px 90px #0005;container-type:size;--bg:#f5f5f7;--ink:#1d1d1f;--sub:#6e6e73;--card:#ffffffcc;--line:#0000001a;--key:#ffffff;--keyink:#1d1d1f;--accent:#0071e3}
@@ -38,13 +49,13 @@ body.dk{background:#000}
 
 /* product */
 .prodwrap{position:absolute;left:50%;top:232px;width:270px;height:336px;margin-left:-135px;transition:transform 1.1s var(--ease);transform-origin:50% 50%;perspective:900px;z-index:2}
-.prod{width:100%;height:100%;background:url(assets/product.webp) center/contain no-repeat;transform-style:preserve-3d;transition:transform .25s ease-out;filter:drop-shadow(0 30px 30px #0003)}
+.prod{width:100%;height:100%;background:var(--img) center/contain no-repeat;transform-style:preserve-3d;transition:transform .25s ease-out;filter:drop-shadow(0 30px 30px #0003)}
 .floaty{width:100%;height:100%;animation:float 5s ease-in-out infinite}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 .shadow{position:absolute;left:18%;right:18%;bottom:-18px;height:26px;border-radius:50%;background:radial-gradient(#0004,transparent 70%);animation:shd 5s ease-in-out infinite}
 .dark .shadow{background:radial-gradient(#6a8cff33,transparent 70%)}
 @keyframes shd{50%{transform:scaleX(.82);opacity:.6}}
-.sheen{position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,#ffffff55 50%,transparent 60%) -150% 0/250% 100% no-repeat;mix-blend-mode:overlay;animation:sheen 5.5s ease-in-out infinite;-webkit-mask:url(assets/product.webp) center/contain no-repeat;mask:url(assets/product.webp) center/contain no-repeat}
+.sheen{position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,#ffffff55 50%,transparent 60%) -150% 0/250% 100% no-repeat;mix-blend-mode:overlay;animation:sheen 5.5s ease-in-out infinite;-webkit-mask:var(--img) center/contain no-repeat;mask:var(--img) center/contain no-repeat}
 @keyframes sheen{0%,55%{background-position:-150% 0}100%{background-position:150% 0}}
 
 /* count */
@@ -220,6 +231,11 @@ body.dk{background:#000}
   .grab{display:none}
   .close{top:28px!important;right:32px}
   .tg{top:26px}
+  .pager{bottom:auto;top:calc(722px + var(--dy,0px));left:calc(355px + var(--dx,0px))}
+  .nav{display:grid;top:calc(390px + var(--dy,0px))}
+  .nav.prev{left:calc(64px + var(--dx,0px))}
+  .nav.next{left:calc(600px + var(--dx,0px))}
+  .claim .prod{background-position:50% 50%}
   .snd{top:26px}
 }
 </style></head><body>
@@ -230,13 +246,14 @@ body.dk{background:#000}
   <div class="eyebrow"><span class="dot"></span>สต๊อกสด · อัปเดตทันที</div>
   <div class="title"><span data-r="pname">ไลโอแฮร์ครีมซิลเวอร์</span><small data-r="pname2">Silver Block Micro-Fine Hair Cream</small></div>
   <div class="prodwrap" data-r="pw"><div class="floaty"><div class="prod" data-r="prod"><div class="sheen"></div></div></div><div class="shadow"></div></div>
-  <div class="count"><div class="n" data-r="num"></div><div class="of">คงเหลือ จาก <span data-r="tot">–</span> ชิ้น<span class="brk"> · </span><span data-r="eta1">ของเข้า 28 ต.ค.</span></div><div class="bar"><i data-r="bar"></i></div></div>
+  <button class="nav prev" data-a="prev" aria-label="สินค้าก่อนหน้า"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><button class="nav next" data-a="next" aria-label="สินค้าถัดไป"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button><div class="pager" data-r="pager"></div>
+  <div class="count"><div class="n" data-r="num"></div><div class="of">คงเหลือ จาก <span data-r="tot">–</span> <span data-r="u1">ชิ้น</span><span data-r="etaw"><span class="brk"> · </span><span data-r="eta1"></span></span></div><div class="bar"><i data-r="bar"></i></div></div>
   <button class="cta" data-a="open" data-r="cta">ขอใช้สิทธิ์</button>
   <div class="neterr" data-r="neterr">การเชื่อมต่อขัดข้อง · กำลังลองใหม่</div>
   <button class="close" data-a="close" aria-label="ปิด">✕</button>
   <div class="stock">
     <div class="ring"><svg viewBox="0 0 64 64"><circle class="trk" cx="32" cy="32" r="27"/><circle class="val" data-r="ringv" cx="32" cy="32" r="27"/></svg><b data-r="sn">12</b></div>
-    <div class="info"><div class="lbl"><i class="live"></i>คงเหลือ · LIVE</div><div class="big"><b data-r="sn2">12</b><span>/ <i data-r="tot2" style="font-style:normal">–</i> ชิ้น</span></div><div class="eta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg><span data-r="eta2">ของเข้า 28 ต.ค.</span></div></div>
+    <div class="info"><div class="lbl"><i class="live"></i>คงเหลือ · LIVE</div><div class="big"><b data-r="sn2">12</b><span>/ <i data-r="tot2" style="font-style:normal">–</i> <i data-r="u2" style="font-style:normal">ชิ้น</i></span></div><div class="eta" data-r="etab"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg><span data-r="eta2"></span></div></div>
   </div>
 
   <div class="form"><div class="sheet" data-r="sheet">
@@ -252,7 +269,7 @@ body.dk{background:#000}
       <section class="st st2">
         <div class="who">รหัส <b data-r="who"></b><button data-a="edit">แก้ไข</button></div>
         <div class="sh">จำนวนที่ขอ</div>
-        <div class="qtyrow"><button class="stp" data-s="-1" data-r="minus" aria-label="ลด"><svg width="26" height="26" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M4 10h12"/></svg></button><div class="val"><b data-r="qv">0</b><small>ชิ้น</small></div><button class="stp" data-s="1" data-r="plus" aria-label="เพิ่ม"><svg width="26" height="26" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M4 10h12"/><path d="M10 4v12"/></svg></button></div>
+        <div class="qtyrow"><button class="stp" data-s="-1" data-r="minus" aria-label="ลด"><svg width="26" height="26" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M4 10h12"/></svg></button><div class="val"><b data-r="qv">0</b><small data-r="u3">ชิ้น</small></div><button class="stp" data-s="1" data-r="plus" aria-label="เพิ่ม"><svg width="26" height="26" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M4 10h12"/><path d="M10 4v12"/></svg></button></div>
         <div class="hintline" data-r="qmax"></div>
       </section>
       <section class="st st3">
@@ -270,24 +287,58 @@ body.dk{background:#000}
 </template>
 <div class="stagewrap"><div class="phone app loading" id="app"></div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/items.js?v=2"></script>
 <script>
-const LEN={j:2,m:2,C:3};let SHARED=0,TOTAL=0,LOADED=false;const apps=[];
+const LEN={j:2,m:2,C:3};let SHARED=0,TOTAL=0,LOADED=false,UNIT='ชิ้น';const apps=[];
 const SB=supabase.createClient('https://swbxecjguiohpwllvues.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN3YnhlY2pndWlvaHB3bGx2dWVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA1ODY3MjUsImV4cCI6MjA5NjE2MjcyNX0.8j9wgyt-tvloBmANuFPJYK2bJCWd_oMWnBhVvZY2NL4',{auth:{persistSession:false}});
-const ITEM=new URLSearchParams(location.search).get('item')||'lyo-silver-block';
+let ITEMS=[],CUR=null,ANIM=false,STAY=null;const URL_ITEM=new URLSearchParams(location.search).get('item'),DEF_IMG='assets/product.webp';
 const REASON={bad_code:'รหัสพนักงานไม่ถูกต้อง',bad_work:'เลขงานไม่ถูกต้อง',bad_qty:'จำนวนไม่ถูกต้อง',no_item:'ไม่พบสินค้านี้แล้ว',net:'เชื่อมต่อไม่ได้ · ลองใหม่อีกครั้ง'};
-// ---------- ข้อมูล: โหลด + realtime + poll สำรอง ----------
-function applyItem(it){TOTAL=it.qty_total;const a=apps[0];
+// ---------- ข้อมูล: โหลดทุกสินค้า + realtime ช่องเดียว (ไม่มี poll) · สลับ/ข้ามสินค้า ----------
+const esc=t=>String(t).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+const curItem=()=>ITEMS.find(i=>i.slug===CUR);
+function setImg(u){const a=apps[0];u=u||DEF_IMG;if(a.img===u)return;a.img=u;const im=new Image();
+  im.onload=()=>{if(a.img===u)a.root.style.setProperty('--img',`url("${u}")`)};im.onerror=()=>{if(a.img===u)a.root.style.setProperty('--img',`url("${DEF_IMG}")`)};im.src=u}
+function applyItem(it){TOTAL=it.qty_total;UNIT=it.unit||'ชิ้น';const a=apps[0];
   a.q('pname').textContent=it.name;a.q('pname2').textContent=it.name_en||'';a.q('tot').textContent=TOTAL;a.q('tot2').textContent=TOTAL;
-  const eta=it.restock_note||'';a.q('eta1').textContent=eta;a.q('eta2').textContent=eta;document.title=it.name+' · เช็คสต๊อก & ขอใช้สิทธิ์'}
-function onServer(n,why){   // ค่าจริงจาก server (realtime / poll / ผล RPC)
+  a.q('u1').textContent=UNIT;a.q('u2').textContent=UNIT;a.q('u3').textContent=UNIT;
+  const eta=it.restock_note||'';a.q('eta1').textContent=eta;a.q('eta2').textContent=eta;a.q('etaw').hidden=!eta;a.q('etab').style.display=eta?'':'none';   // ไม่มีวันของเข้า = ซ่อนทั้งท่อน
+  setImg(it.image_url);document.title=it.name+' · เช็คสต๊อก & ขอใช้สิทธิ์'}
+function renderPager(){const a=apps[0];a.root.classList.toggle('single',ITEMS.length<2);
+  a.q('pager').innerHTML=ITEMS.map(i=>`<button data-a="dot" data-slug="${esc(i.slug)}" class="${i.slug===CUR?'on':''}" aria-label="${esc(i.name)}"></button>`).join('')}
+function remember(){localStorage.setItem('stockItem',CUR);if(URL_ITEM&&location.search){history.replaceState(null,'',location.pathname)}}   // จำตัวล่าสุด · ตัด ?item= ออกให้รีเฟรชแล้วได้ตัวล่าสุด
+function canSwitch(){const a=apps[0];return LOADED&&!ANIM&&!a.busy&&!a.root.classList.contains('claim')}
+function onServer(n,why){   // ค่าจริงของสินค้าที่โชว์ (realtime / fetch / ผล RPC)
   const a=apps[0];if(!a)return;if(a.busy){a.pendingServer=n;return}   // ระหว่างขอสิทธิ์ของตัวเอง → เก็บไว้ sync หลัง toast
   if(!LOADED){LOADED=true;SHARED=n;a.root.classList.remove('loading');a.countIn();return}
-  if(n===SHARED)return;const drop=n<SHARED;SHARED=n;if(why!=='self'&&drop)Snd.ping();a.tickTo(n)}
-async function fetchItem(){const {data,error}=await SB.from('stock_items').select('*').eq('slug',ITEM).maybeSingle();
-  if(error||!data){apps[0].net(true);return false}apps[0].net(false);applyItem(data);onServer(data.qty_left,'poll');return true}
-function subscribe(){SB.channel('stock-'+ITEM).on('postgres_changes',{event:'UPDATE',schema:'public',table:'stock_items',filter:'slug=eq.'+ITEM},p=>{if(p.new){applyItem(p.new);onServer(p.new.qty_left,'rt')}})
-  .subscribe(st=>{if(st==='SUBSCRIBED')fetchItem();})}
-document.addEventListener('visibilitychange',()=>{if(!document.hidden)fetchItem()});   // อัปเดตเฉพาะเมื่อมีการเปลี่ยนแปลง (realtime) · ดึงครั้งเดียวตอนกลับมาเปิดแอป (มือถือตัด socket ตอนล็อกจอ)
+  if(n>0&&STAY===CUR)STAY=null;   // มีของเข้าแล้ว → ถ้าหมดอีกครั้งค่อยข้าม
+  if(n===SHARED){if(n<=0)maybeSkip();return}const drop=n<SHARED;SHARED=n;if(why!=='self'&&drop)Snd.ping();a.tickTo(n);if(n<=0)setTimeout(maybeSkip,700)}
+function maybeSkip(){   // ตัวที่โชว์หมด → ไปตัวถัดไปที่ยังมีของ (หมดทุกตัว = อยู่ที่เดิม · ฟอร์มเปิด/กำลังส่ง = รอปิดก่อน)
+  if(!canSwitch())return;const it=curItem();if(it&&it.qty_left>0)return;if(it&&STAY===CUR)return;   // ปัดมาดูตัวที่หมดเอง = ให้ดูได้ ไม่เด้ง
+  const nx=StockItems.nextInStock(ITEMS,CUR)||(!it&&ITEMS[0]?ITEMS[0].slug:null);if(nx&&nx!==CUR)goTo(nx,1)}
+function goTo(slug,dir,manual){const a=apps[0];if(!slug||slug===CUR||ANIM)return;const it=ITEMS.find(i=>i.slug===slug);if(!it)return;STAY=manual&&it.qty_left<=0?slug:null;
+  if(!dir){const i0=ITEMS.findIndex(i=>i.slug===CUR),i1=ITEMS.indexOf(it);dir=i1>=i0?1:-1}
+  ANIM=true;CUR=slug;remember();renderPager();Snd.roll();
+  const els=[a.q('prod'),a.root.querySelector('.title'),a.root.querySelector('.count .of')],D=matchMedia('(prefers-reduced-motion: reduce)').matches?0:240;
+  const out=[{transform:'translateX(0)',opacity:1},{transform:`translateX(${-dir*60}px) scale(.94)`,opacity:0}],inn=[{transform:`translateX(${dir*60}px) scale(.94)`,opacity:0},{transform:'translateX(0)',opacity:1}];
+  Promise.all(els.map(e=>e.animate(out,{duration:D,easing:'cubic-bezier(.4,0,1,1)',fill:'forwards'}).finished)).catch(()=>{}).then(()=>{
+    const cur=curItem()||it;applyItem(cur);SHARED=cur.qty_left;a.renderNum();a.countIn();
+    els.forEach(e=>{e.getAnimations().forEach(x=>x.cancel());e.animate(inn,{duration:D*1.5,easing:'cubic-bezier(0,0,.2,1)'})});
+    setTimeout(()=>{ANIM=false;maybeSkip()},D*1.5+30)})}
+async function fetchAll(){const {data,error}=await SB.from('stock_items').select('*');
+  if(error||!data||!data.length){apps[0].net(true);return false}apps[0].net(false);
+  ITEMS=StockItems.sortItems(data);ITEMS.forEach(i=>{if(i.image_url)new Image().src=i.image_url});
+  if(!curItem()){   // เปิดครั้งแรก (หรือตัวที่โชว์ถูกปิดไป): ?item= → ตัวล่าสุด → ตัวแรก · หมดแล้ว → ข้ามไปตัวที่มีของ
+    let s0=StockItems.pickInitial(ITEMS,URL_ITEM,localStorage.getItem('stockItem'));const it=ITEMS.find(i=>i.slug===s0);
+    if(it&&it.qty_left<=0)s0=StockItems.nextInStock(ITEMS,s0)||s0;
+    if(LOADED&&CUR){CUR=null;goTo(s0,1);return true}CUR=s0;remember()}
+  renderPager();const it=curItem();applyItem(it);onServer(it.qty_left,'poll');return true}
+function subscribe(){SB.channel('stock-all').on('postgres_changes',{event:'*',schema:'public',table:'stock_items'},p=>{const r=p.new;if(!r||!r.slug)return;
+    ITEMS=StockItems.upsert(ITEMS,r);if(r.image_url)new Image().src=r.image_url;
+    if(r.slug!==CUR){renderPager();return}   // สินค้าอื่น: อัปเดตเงียบ
+    if(r.active===false){renderPager();fetchAll();return}
+    renderPager();applyItem(r);onServer(r.qty_left,'rt')})
+  .subscribe(st=>{if(st==='SUBSCRIBED')fetchAll();})}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)fetchAll()});   // อัปเดตเฉพาะเมื่อมีการเปลี่ยนแปลง (realtime) · ดึงครั้งเดียวตอนกลับมาเปิดแอป (มือถือตัด socket ตอนล็อกจอ)
 // ---------- scale ให้พอดีจอ ----------
 function fit(){const a=apps[0];if(!a)return;const vw=innerWidth,vh=innerHeight,desk=vw>=900&&vw>vh;
   a.root.classList.toggle('desk',desk);let W,H,sc;
@@ -334,7 +385,7 @@ class App{
     if(t.dataset.s){ev.stopPropagation();Snd.tick(+t.dataset.s>0);this.step(+t.dataset.s);return}
     if(t.dataset.w){ev.stopPropagation();Snd.tick(+t.dataset.w>0);this.wstep(+t.dataset.w);return}
     if(t.dataset.k){ev.stopPropagation();Snd.tap();this.key(t.dataset.k)}else if(t.dataset.p){ev.stopPropagation();Snd.select();this.pre(t.dataset.p)}
-    else if(t.dataset.a==='open')this.open();else if(t.dataset.a==='close')this.close();else if(t.dataset.a==='go')this.primary();else if(t.dataset.a==='edit'){this.setStep(1);this.upd()}else if(t.dataset.a==='edit2'){this.setStep(2);this.upd()}else if(t.dataset.a==='theme'){const r=t.getBoundingClientRect(),side=ev.target.closest('.ic-sun')?0:ev.target.closest('.ic-moon')?1:(ev.clientX>r.left+r.width/2?1:0);this.themeSwap(!!side)}else if(t.dataset.a==='snd'){Snd.setOn(!Snd.on)}else if(t.dataset.f)this.focusF(t.dataset.f)});
+    else if(t.dataset.a==='open')this.open();else if(t.dataset.a==='close')this.close();else if(t.dataset.a==='go')this.primary();else if(t.dataset.a==='edit'){this.setStep(1);this.upd()}else if(t.dataset.a==='edit2'){this.setStep(2);this.upd()}else if(t.dataset.a==='theme'){const r=t.getBoundingClientRect(),side=ev.target.closest('.ic-sun')?0:ev.target.closest('.ic-moon')?1:(ev.clientX>r.left+r.width/2?1:0);this.themeSwap(!!side)}else if(t.dataset.a==='snd'){Snd.setOn(!Snd.on)}else if(t.dataset.a==='prev'||t.dataset.a==='next'){const d=t.dataset.a==='next'?1:-1;if(canSwitch())goTo(StockItems.step(ITEMS,CUR,d),d,true)}else if(t.dataset.a==='dot'){if(canSwitch())goTo(t.dataset.slug,0,true)}else if(t.dataset.f)this.focusF(t.dataset.f)});
   const pr=this.q('prod');root.addEventListener('pointermove',e=>{if(root.classList.contains('claim'))return;const r=root.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;pr.style.transform=`rotateY(${x*18}deg) rotateX(${-y*12}deg)`});
   root.addEventListener('pointerleave',()=>pr.style.transform='');
   this.stepN=1;this.pre('C',true);this.upd();this.layoutOrbs();
@@ -387,16 +438,16 @@ class App{
   setTimeout(()=>{[outgoing,kn,iS,iM].forEach(el=>el.getAnimations().forEach(a=>a.cancel()));this.root.classList.remove('swap')},D+80);   // คืนให้ CSS (ค่าเท่าเฟรมสุดท้าย)
   setTimeout(()=>{incoming.getAnimations().forEach(a=>a.cancel());this.swapping=false},TOT+80);
  }
- countIn(){let c0=TOTAL;const iv=setInterval(()=>{if(c0<=SHARED){clearInterval(iv);this.renderNum();return}c0--;this.paint(c0)},Math.max(25,Math.min(70,1200/Math.max(1,TOTAL-SHARED))))}
+ countIn(){clearInterval(this.civ);let c0=TOTAL;const iv=this.civ=setInterval(()=>{if(c0<=SHARED){clearInterval(iv);this.renderNum();return}c0--;this.paint(c0)},Math.max(25,Math.min(70,1200/Math.max(1,TOTAL-SHARED))))}
  net(on){this.q('neterr').classList.toggle('on',!!on)}
  paint(v){this.q('num').innerHTML=[...String(v)].map(c=>`<span>${c}</span>`).join('');this.q('bar').style.width=(TOTAL?v/TOTAL*100:0)+'%'}
- renderNum(){this.paint(SHARED);this.q('sn').textContent=SHARED;this.q('sn2').textContent=SHARED;this.q('ringv').style.strokeDashoffset=169.6*(1-(TOTAL?SHARED/TOTAL:0));const cta=this.q('cta'),out=SHARED<=0;cta.classList.toggle('out',out);cta.textContent=out?'หมดแล้ว'+(this.q('eta1').textContent?' · '+this.q('eta1').textContent:''):'ขอใช้สิทธิ์';this.q('qmax').textContent='สูงสุด '+SHARED+' ชิ้น'}
+ renderNum(){this.paint(SHARED);this.q('sn').textContent=SHARED;this.q('sn2').textContent=SHARED;this.q('ringv').style.strokeDashoffset=169.6*(1-(TOTAL?SHARED/TOTAL:0));const cta=this.q('cta'),out=SHARED<=0;cta.classList.toggle('out',out);cta.textContent=out?'หมดแล้ว'+(this.q('eta1').textContent?' · '+this.q('eta1').textContent:''):'ขอใช้สิทธิ์';this.q('qmax').textContent='สูงสุด '+SHARED+' '+UNIT}
  tickTo(n){const fx=this.q('bgfx');fx.classList.remove('pinging');void fx.offsetWidth;fx.classList.add('pinging');[...this.q('num').children].forEach(sp=>sp.style.transform='translateY(-110%)');
   setTimeout(()=>{this.renderNum();[...this.q('num').children].forEach(sp=>{sp.style.transition='none';sp.style.transform='translateY(110%)';requestAnimationFrame(()=>requestAnimationFrame(()=>{sp.style.transition='';sp.style.transform='translateY(0)'}))})},260)}
- open(){if(!LOADED||SHARED<=0){if(LOADED)Snd.fail();return}const m=JSON.parse(localStorage.getItem('stockClaimLast')||'null');   // จำรหัสล่าสุด
+ open(){if(ANIM)return;if(!LOADED||SHARED<=0){if(LOADED)Snd.fail();return}const m=JSON.parse(localStorage.getItem('stockClaimLast')||'null');   // จำรหัสล่าสุด
   if(m&&LEN[m.p]&&(m.c||'').length===LEN[m.p]){this.prefix=m.p;this.code=m.c}
   this.qty='';this.work='';this.setStep(this.code.length===LEN[this.prefix]?2:1);Snd.open();this.root.classList.add('claim');this.upd()}
- close(silent){if(!silent)Snd.close();this.root.classList.remove('claim');this.qty='';this.upd()}
+ close(silent){if(!silent)Snd.close();this.root.classList.remove('claim');this.qty='';this.upd();setTimeout(maybeSkip,450)}
  setStep(n){this.stepN=n;const st=this.q('stage');st.classList.toggle('s2',n>=2);st.classList.toggle('s3',n===3);[1,2,3].forEach(i=>this.q('d'+i).classList.toggle('on',n===i))}
  pre(p,init){if(p!==this.prefix)this.code='';this.prefix=p;if(!init)this.setStep(1);this.upd()}   // เปลี่ยนตัวอักษร = ล้างเลข
  focusF(){}
@@ -414,32 +465,37 @@ class App{
   const rest=L-this.code.length;
   this.q('code').innerHTML=`${this.prefix}${this.code}${rest?'<span class="car"></span><span class="ph">'+'_'.repeat(rest)+'</span>':''}`;
   this.q('chint').textContent=this.prefix==='C'?'C ตามด้วยเลข 3 หลัก เช่น C203':this.prefix+' ตามด้วยเลข 2 หลัก เช่น '+this.prefix+'10';
-  this.q('who').textContent=this.prefix+this.code;this.q('who2').textContent=`${this.prefix}${this.code} · ${this.qty||0} ชิ้น`;
+  this.q('who').textContent=this.prefix+this.code;this.q('who2').textContent=`${this.prefix}${this.code} · ${this.qty||0} ${UNIT}`;
   const wv=this.q('wv');wv.textContent=this.work||'0';wv.classList.toggle('ph',!this.work);this.q('wminus').disabled=!(+this.work>1);this.q('wplus').disabled=(+this.work||0)>=999;
   const qv=this.q('qv');qv.textContent=this.qty||'0';qv.classList.toggle('ph',!this.qty);
-  this.q('qmax').textContent='ขอได้ 1 – '+SHARED+' ชิ้น (เหลือ '+SHARED+')';
+  this.q('qmax').textContent='ขอได้ 1 – '+SHARED+' '+UNIT+' (เหลือ '+SHARED+')';
   this.q('minus').disabled=!(+this.qty>1);this.q('plus').disabled=(+this.qty||0)>=SHARED;
   const go=this.q('go');
   if(this.stepN===1){go.textContent='ถัดไป';go.disabled=this.code.length!==L}
   else if(this.stepN===2){go.textContent=+this.qty>0?'ถัดไป':'เลือกจำนวน';go.disabled=!(+this.qty>0)}
-  else{go.textContent=+this.work>0?`ขอใช้สิทธิ์ ${this.qty} ชิ้น · งานที่ ${this.work}`:'ใส่เลขงาน';go.disabled=!(+this.work>0&&+this.qty>0)}}
+  else{go.textContent=+this.work>0?`ขอใช้สิทธิ์ ${this.qty} ${UNIT} · งานที่ ${this.work}`:'ใส่เลขงาน';go.disabled=!(+this.work>0&&+this.qty>0)}}
  async submit(){const go=this.q('go');if(go.disabled||this.busy)return;const want=+this.qty,work=+this.work,code=this.prefix+this.code;
   this.busy=true;this.pendingServer=null;go.disabled=true;this.q('veil').classList.add('on');const t0=Date.now();
-  let res;try{const r=await SB.rpc('stock_claim',{p_slug:ITEM,p_emp:code,p_qty:want,p_work:work});if(r.error)throw r.error;res=r.data}catch(e){console.error(e);res={ok:false,reason:'net'}}
+  let res;try{const r=await SB.rpc('stock_claim',{p_slug:CUR,p_emp:code,p_qty:want,p_work:work});if(r.error)throw r.error;res=r.data}catch(e){console.error(e);res={ok:false,reason:'net'}}
   await new Promise(r=>setTimeout(r,Math.max(0,450-(Date.now()-t0))));   // จังหวะเดิมของ motion
   const ok=!!res.ok,t=this.q('toast');if(ok)localStorage.setItem('stockClaimLast',JSON.stringify({p:this.prefix,c:this.code}));
   t.classList.toggle('fail',!ok);this.q('tic').textContent=ok?'✓':'!';
   this.q('tt').textContent=ok?'ขอสิทธิ์สำเร็จ':(res.reason==='insufficient'?'สิทธิ์ไม่พอแล้ว':'ขอสิทธิ์ไม่สำเร็จ');
-  this.q('tp').textContent=ok?`${code} · ${want} ชิ้น · งานที่ ${work} · เหลือ ${res.left} ชิ้น`:(res.reason==='insufficient'?(res.left>0?`มีคนขอไปก่อน · ตอนนี้เหลือ ${res.left} ชิ้น`:'มีคนขอไปก่อนหน้าเสี้ยววินาที · สินค้าหมดแล้ว'):(REASON[res.reason]||'ลองใหม่อีกครั้ง'));
+  this.q('tp').textContent=ok?`${code} · ${want} ${UNIT} · งานที่ ${work} · เหลือ ${res.left} ${UNIT}`:(res.reason==='insufficient'?(res.left>0?`มีคนขอไปก่อน · ตอนนี้เหลือ ${res.left} ${UNIT}`:'มีคนขอไปก่อนหน้าเสี้ยววินาที · สินค้าหมดแล้ว'):(REASON[res.reason]||'ลองใหม่อีกครั้ง'));
   if(ok)Snd.success();else Snd.fail();t.classList.add('on');
   setTimeout(()=>{t.classList.remove('on');this.q('veil').classList.remove('on');
     if(ok||res.reason==='insufficient')this.close();else{this.busy=false;this.upd();}
     setTimeout(()=>{this.busy=false;let n=typeof res.left==='number'?res.left:SHARED;if(this.pendingServer!=null)n=Math.min(n,this.pendingServer);this.pendingServer=null;
-      if(n!==SHARED){SHARED=n;Snd.roll();this.tickTo(n)}else this.renderNum();setTimeout(fetchItem,800)},500)},1700)}
+      const ci=curItem();if(ci)ci.qty_left=n;if(n!==SHARED){SHARED=n;Snd.roll();this.tickTo(n)}else this.renderNum();setTimeout(fetchAll,800)},500)},1700)}
 }
 document.querySelectorAll('.app').forEach(r=>{const th=localStorage.getItem('stockTheme');if(th?th==='dark':matchMedia('(prefers-color-scheme: dark)').matches)r.classList.add('dark');
   apps.push(new App(r));r.classList.toggle('muted',!Snd.on)});
-fit();fetchItem().then(subscribe);
+fit();fetchAll().then(subscribe);
+(()=>{const pw=apps[0].q('pw');let sx=null,sy=0;   // ปัดซ้าย/ขวาที่สินค้า
+  pw.addEventListener('pointerdown',e=>{sx=e.clientX;sy=e.clientY});
+  addEventListener('pointerup',e=>{if(sx==null)return;const d=StockItems.swipeDir(e.clientX-sx,e.clientY-sy,40);sx=null;if(d&&canSwitch())goTo(StockItems.step(ITEMS,CUR,d),d,true)});
+  addEventListener('pointercancel',()=>{sx=null})})();
+addEventListener('keydown',e=>{if(e.key!=='ArrowLeft'&&e.key!=='ArrowRight')return;const d=e.key==='ArrowRight'?1:-1;if(canSwitch())goTo(StockItems.step(ITEMS,CUR,d),d,true)});
 new MutationObserver(()=>{const d=apps[0].root.classList.contains('dark');document.body.classList.toggle('dk',d);localStorage.setItem('stockTheme',d?'dark':'light');
   document.querySelector('meta[name=theme-color]').content=d?'#000000':'#f5f5f7'}).observe(apps[0].root,{attributes:true,attributeFilter:['class']});
 document.body.classList.toggle('dk',apps[0].root.classList.contains('dark'));
