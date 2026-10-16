@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<title>เช็คสต๊อกสด · ขอใช้สิทธิ์</title>
+<title>stock-live</title>
+<meta name="apple-mobile-web-app-title" content="stock-live"><meta name="application-name" content="stock-live">
 <meta name="theme-color" content="#f5f5f7">
-<meta property="og:title" content="เช็คสต๊อกสด · ขอใช้สิทธิ์">
+<meta property="og:title" content="stock-live">
 <meta property="og:description" content="ดูจำนวนคงเหลือแบบ real-time และขอใช้สิทธิ์สินค้า · ปัดดูสินค้าอื่น">
 <meta property="og:image" content="https://faceadvance.github.io/stock-live/assets/og.jpg">
 <meta property="og:type" content="website">
-<link rel="icon" type="image/png" href="assets/icon.png"><link rel="apple-touch-icon" href="assets/icon.png">
+<link rel="icon" type="image/png" href="assets/icon.png?v=2"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=2"><link rel="manifest" href="manifest.webmanifest?v=2">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -302,7 +303,7 @@ function applyItem(it){TOTAL=it.qty_total;UNIT=it.unit||'ชิ้น';const a=a
   a.q('pname').textContent=it.name;a.q('pname2').textContent=it.name_en||'';a.q('tot').textContent=TOTAL;a.q('tot2').textContent=TOTAL;
   a.q('u1').textContent=UNIT;a.q('u2').textContent=UNIT;a.q('u3').textContent=UNIT;
   const eta=it.restock_note||'';a.q('eta1').textContent=eta;a.q('eta2').textContent=eta;a.q('etaw').hidden=!eta;a.q('etab').style.display=eta?'':'none';   // ไม่มีวันของเข้า = ซ่อนทั้งท่อน
-  setImg(it.image_url);document.title=it.name+' · เช็คสต๊อก & ขอใช้สิทธิ์'}
+  setImg(it.image_url)}
 function renderPager(){const a=apps[0];a.root.classList.toggle('single',ITEMS.length<2);
   a.q('pager').innerHTML=ITEMS.map(i=>`<button data-a="dot" data-slug="${esc(i.slug)}" class="${i.slug===CUR?'on':''}" aria-label="${esc(i.name)}"></button>`).join('')}
 function remember(){localStorage.setItem('stockItem',CUR);if(URL_ITEM&&location.search){history.replaceState(null,'',location.pathname)}}   // จำตัวล่าสุด · ตัด ?item= ออกให้รีเฟรชแล้วได้ตัวล่าสุด
